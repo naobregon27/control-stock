@@ -2,14 +2,24 @@ require("dotenv").config();
 const { Sequelize, DataTypes } = require("sequelize");
 const fs = require("fs");
 const path = require("path");
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_RENDER } = process.env;
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_RENDER } = process.env;
 
-const sequelize = new Sequelize("stock", DB_USER, DB_PASSWORD, {
-  host: DB_HOST,
-  dialect: "postgres",
+// const sequelize = new Sequelize("stock", DB_USER, DB_PASSWORD, {
+//   host: DB_HOST,
+//   dialect: "postgres",
+//   logging: false,
+//   native: false,
+//   ssl: true,
+// });
+
+//! este sequelize es para RENDERIZADO... DEPLOY DB en render.s.
+
+const sequelize = new Sequelize("postgresql://postgress:pBjYQoFc3mcW6lv4HbKrSOd57KdJlLY0@dpg-cqqj5sl6l47c73avhvqg-a/stock_0h8m", {
   logging: false,
   native: false,
-  ssl: true,
+  dialectOptions: {
+    ssl: true, // Deshabilitar la conexión SSL/TLS
+  },
 });
 
 const basename = path.basename(__filename);
