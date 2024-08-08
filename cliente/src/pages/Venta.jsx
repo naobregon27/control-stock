@@ -123,26 +123,26 @@ const Ventas = () => {
                 inputProps={inputProps}
             />
             <br />
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
+            <form onSubmit={handleSubmit} className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div className="form-group" >
                     <label>Nombre del Producto</label>
-                    <input type="text" className="form-control" value={productoSeleccionado.nombreProducto} readOnly />
+                    <input type="text" className="border border-gray-400 p-2 rounded block my-2 w-full text-black" value={productoSeleccionado.nombreProducto} readOnly />
                 </div>
                 <div className="form-group">
                     <label>Precio</label>
-                        <input type="text" className="form-control" value={`$${productoSeleccionado.precio}`} readOnly />
+                        <input type="text" className="border border-gray-400 p-2 rounded block my-2 w-full text-black" value={`$${productoSeleccionado.precio}`} readOnly />
                     </div>
                     <div className="form-group">
                         <label>Cantidad Vendida</label>
-                        <input type="number" className="form-control" name="cantidad" value={cliente.cantidad} onChange={handleClienteChange} />
+                        <input type="number" className="border border-gray-400 p-2 rounded block my-2 w-full text-black" name="cantidad" value={cliente.cantidad} onChange={handleClienteChange} />
                     </div>
                     <div className="form-group">
                         <label>Nombre del Cliente</label>
-                        <input type="text" className="form-control" name="nombreCliente" value={cliente.nombreCliente} onChange={handleClienteChange} />
+                        <input type="text" className="border border-gray-400 p-2 rounded block my-2 w-full text-black" name="nombreCliente" value={cliente.nombreCliente} onChange={handleClienteChange} />
                     </div>
                     <div className="form-group">
                         <label>Documento del Cliente</label>
-                        <input type="text" className="form-control" name="documentoCliente" value={cliente.documentoCliente} onChange={handleClienteChange} />
+                        <input type="text" className="border border-gray-400 p-2 rounded block my-2 w-full text-black" name="documentoCliente" value={cliente.documentoCliente} onChange={handleClienteChange} />
                     </div>
 
                     <button type="submit" className="btn btn-primary">Guardar Venta</button>
