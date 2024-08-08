@@ -1,6 +1,6 @@
 import React from "react";
 import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import Autosuggest from 'react-autosuggest';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
