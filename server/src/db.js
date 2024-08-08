@@ -18,9 +18,10 @@ const sequelize = new Sequelize("postgresql://postgress:pBjYQoFc3mcW6lv4HbKrSOd5
   logging: false,
   native: false,
   dialectOptions: {
-    ssl: true, // Deshabilitar la conexión SSL/TLS
-    rejectUnauthorized: false
-
+    ssl: {
+      require: true, // Asegura que SSL está habilitado
+      rejectUnauthorized: false // Permite aceptar certificados autofirmados
+    }
   },
 });
 
