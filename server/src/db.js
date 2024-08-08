@@ -19,6 +19,8 @@ const sequelize = new Sequelize("postgresql://postgress:pBjYQoFc3mcW6lv4HbKrSOd5
   native: false,
   dialectOptions: {
     ssl: true, // Deshabilitar la conexión SSL/TLS
+    rejectUnauthorized: false
+
   },
 });
 
