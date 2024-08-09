@@ -4,7 +4,7 @@ import { FiSettings } from 'react-icons/fi';
 import { TooltipComponent } from '@syncfusion/ej2-react-popups';
 
 import { Navbar, Footer, Sidebar, ThemeSettings } from './components';
-import { Ecommerce, Orders, Stacked, Pyramid, Line, Area, Bar, Pie, Financial, ColorMapping, Editor} from './pages';
+import { Ecommerce, Orders, Editor} from './pages';
 import Venta from "./pages/Venta";
 import Registro from './pages/registro';
 
