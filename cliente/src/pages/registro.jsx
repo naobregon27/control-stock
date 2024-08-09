@@ -34,51 +34,54 @@ const Registro = () => {
   }
 
   return (
-    <div>
-      <div>
-        <label>
-          Fecha Inicio:
-          <input
-            type="date"
-            value={fechaInicio}
-            onChange={e => setFechaInicio(e.target.value)}
-          />
-        </label>
-        <label>
-          Fecha Fin:
-          <input
-            type="date"
-            value={fechaFin}
-            onChange={e => setFechaFin(e.target.value)}
-          />
-        </label>
-        <button onClick={handleFilter}>Filtrar</button>
-      </div>
-      <table border="1">
-        <thead>
-          <tr>
-            <th>Fecha de Registro</th>
-            <th>Nombre del Producto</th>
-            <th>Precio</th>
-            <th>Cantidad</th>
-            <th>Cliente</th>
-            <th>Documento del Cliente</th>
-          </tr>
-        </thead>
-        <tbody>
-          {ventas.map((venta, index) => (
-            <tr key={index}>
-              <td>{venta.fechaRegistro}</td>
-              <td>{venta.nombreProducto}</td>
-              <td>${venta.precio}</td>
-              <td>{venta.cantidad}</td>
-              <td>{venta.nombreCliente}</td>
-              <td>{venta.documentoCliente}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+   <div>
+    <div className="mb-4">
+    <label className="block text-sm font-bold mb-2">
+      Fecha Inicio:
+      <input
+        type="date"
+        className="border border-gray-400 p-2 rounded w-full"
+        value={fechaInicio}
+        onChange={e => setFechaInicio(e.target.value)}
+      />
+    </label>
+    <label className="block text-sm font-bold mb-2">
+      Fecha Fin:
+      <input
+        type="date"
+        className="border border-gray-400 p-2 rounded w-full"
+        value={fechaFin}
+        onChange={e => setFechaFin(e.target.value)}
+      />
+    </label>
+    <button onClick={handleFilter} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Filtrar</button>
+  </div>
+
+  <table className="min-w-full bg-white border border-gray-400">
+    <thead>
+      <tr>
+        <th className="py-2 px-4 border-b">Fecha de Registro</th>
+        <th className="py-2 px-4 border-b">Nombre del Producto</th>
+        <th className="py-2 px-4 border-b">Precio</th>
+        <th className="py-2 px-4 border-b">Cantidad</th>
+        <th className="py-2 px-4 border-b">Cliente</th>
+        <th className="py-2 px-4 border-b">Documento del Cliente</th>
+      </tr>
+    </thead>
+    <tbody>
+      {ventas.map((venta, index) => (
+        <tr key={index} className="hover:bg-gray-100">
+          <td className="py-2 px-4 border-b">{venta.fechaRegistro}</td>
+          <td className="py-2 px-4 border-b">{venta.nombreProducto}</td>
+          <td className="py-2 px-4 border-b">${venta.precio}</td>
+          <td className="py-2 px-4 border-b">{venta.cantidad}</td>
+          <td className="py-2 px-4 border-b">{venta.nombreCliente}</td>
+          <td className="py-2 px-4 border-b">{venta.documentoCliente}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+   </div>
   );
 };
 
