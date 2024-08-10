@@ -146,7 +146,7 @@ const Ventas = () => {
 
             
             <form onSubmit={handleSubmit} className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <h3 className="text-lg font-bold">Formulario de Ventas</h3>
+                <h3 className="text-lg font-bold">Formulario de Ventas!</h3>
                 <div className="form-group">
                     <label>Nombre del Producto</label>
                     <input type="text" className="border border-gray-400 p-2 rounded-md block my-2 w-full text-black" value={productoSeleccionado.nombreProducto} readOnly />
