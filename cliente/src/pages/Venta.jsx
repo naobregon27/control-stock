@@ -38,14 +38,20 @@ const Ventas = () => {
     const filtrarProductos = (value) => {
         const inputValue = value.trim().toLowerCase();
         const inputLength = inputValue.length;
-
-        return inputLength === 0 ? [] : data.filter(producto =>
-            producto.nombreProducto.toLowerCase()
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .includes(inputValue)
-        );
-    };
+      
+        var filtrado = data.filter((producto) => {
+          var textoCompleto = producto.nombreProducto+ "-" +producto.marca;
+      
+          if (textoCompleto.toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .includes(inputValue)) {
+            return producto;
+          }
+        });
+      
+        return inputLength === 0 ? [] : filtrado;
+      };
 
     const onSuggestionsClearRequested = () => {
         setProductos([]);
@@ -75,7 +81,7 @@ const Ventas = () => {
     };
 
     const obtenerData = () => {
-        // axios.get("http://localhost:4000/task")
+        //axios.get("http://localhost:4000/task")
         axios.get("https://control-stock-06su.onrender.com/task")
         .then(response => {
             setProductos(response.data);
@@ -95,8 +101,8 @@ const Ventas = () => {
             documentoCliente: cliente.documentoCliente,
             cantidad: cliente.cantidad
         };
-        //axios.post("http://localhost:4000/ventas", venta)//local
-        axios.post("https://control-stock-06su.onrender.com/ventas")
+       //axios.post("http://localhost:4000/ventas", venta)//local
+       axios.post("https://control-stock-06su.onrender.com/ventas", venta)//render
             .then(response => {
                 Swal.fire({
                     title: '¡Éxito!',
