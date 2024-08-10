@@ -27,8 +27,8 @@ const Editor = () => {
   }, [params.id]);
 
   const loadTask = async (id) => {
-    const res = await fetch("http://localhost:3001/task/" + id); //local
-   // const res = await fetch("https://control-stock-06su.onrender.com/task/" + id); //deployado
+   // const res = await fetch("http://localhost:3001/task/" + id); //local
+   const res = await fetch("https://control-stock-06su.onrender.com/task/" + id); //deployado
     const data = await res.json();
     setProduc({
       nombreProducto: data.nombreProducto, marca: data.marca, precio: data.precio, cantidad: data.cantidad, categoria: data.categoria
@@ -37,8 +37,8 @@ const Editor = () => {
 
   const handleDelete = async (id) => {
     try {
-     await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
-     //   await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
+     //await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
+      await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
         method: "DELETE",
       });
       Swal.fire("Deleted!", "Your product has been deleted.", "success");
@@ -55,8 +55,8 @@ const Editor = () => {
     try {
       if (params.id) {
         const response = await fetch(
-          "http://localhost:4000/task/" + params.id, //local
-          //"https://control-stock-06su.onrender.com/task/" + params.id, //deployado
+          //"http://localhost:4000/task/" + params.id, //local
+          "https://control-stock-06su.onrender.com/task/" + params.id, //deployado
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -66,8 +66,8 @@ const Editor = () => {
         await response.json();
         Swal.fire("Updated!", "Your product has been updated.", "success");
       } else {
-       const response = await fetch("http://localhost:4000/task", { //local 
-       //   const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
+       //const response = await fetch("http://localhost:4000/task", { //local 
+       const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(produc),

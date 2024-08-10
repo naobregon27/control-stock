@@ -75,7 +75,9 @@ const Ventas = () => {
     };
 
     const obtenerData = () => {
-        axios.get("http://localhost:4000/task").then(response => {
+        // axios.get("http://localhost:4000/task")
+        axios.get("https://control-stock-06su.onrender.com/task")
+        .then(response => {
             setProductos(response.data);
             setData(response.data);
         });
@@ -93,7 +95,8 @@ const Ventas = () => {
             documentoCliente: cliente.documentoCliente,
             cantidad: cliente.cantidad
         };
-        axios.post("http://localhost:4000/ventas", venta)
+        //axios.post("http://localhost:4000/ventas", venta)//local
+        axios.post("https://control-stock-06su.onrender.com/ventas")
             .then(response => {
                 Swal.fire({
                     title: '¡Éxito!',
