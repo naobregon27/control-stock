@@ -4,6 +4,7 @@ import babel from '@rollup/plugin-babel';
 import tailwindcss from 'tailwindcss';
 
 export default defineConfig({
+  base: './',
   plugins: [
     react(),
     babel({
