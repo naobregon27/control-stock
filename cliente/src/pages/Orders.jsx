@@ -24,7 +24,8 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    axios.get('http://localhost:4000/task')
+    axios.get('http://localhost:4000/task') // local
+    //axios.get('https://control-stock-06su.onrender.com/task') //deployado
       .then(response => {
         setData(response.data);
       })
@@ -35,7 +36,8 @@ const Orders = () => {
 
   const handleDelete = (e) => {
     const { id } = e.rowData;
-    axios.delete(`http://localhost:4000/task/delete/${id}`)
+    axios.delete(`http://localhost:4000/task/delete/${id}`) //local
+    //axios.delete(`https://control-stock-06su.onrender.com/task/delete/${id}`)
       .then(response => {
         setData(prevData => prevData.filter(item => item.id !== id));
       })
