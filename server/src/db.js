@@ -12,7 +12,7 @@ const path = require("path");
 //   ssl: true,
 // });
 
-! este sequelize es para RENDERIZADO... DEPLOY DB en render.s.
+//! este sequelize es para RENDERIZADO... DEPLOY DB en render.s.
 
 const sequelize = new Sequelize("postgresql://postgress:pBjYQoFc3mcW6lv4HbKrSOd57KdJlLY0@dpg-cqqj5sl6l47c73avhvqg-a/stock_0h8m", {
   logging: false,
