@@ -7,7 +7,7 @@ const Registro = () => {
   const [fechaFin, setFechaFin] = useState('');
 
   useEffect(() => {
-   // fetch('http://localhost:4000/ventas')
+   //fetch('http://localhost:4000/ventas')
    fetch("https://control-stock-06su.onrender.com/ventas")
       .then(response => response.json())
       .then(data => {

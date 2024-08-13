@@ -39,7 +39,7 @@ const Editor = () => {
   const handleDelete = async (id) => {
     try {
       //await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
-        await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
+      await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
         method: "DELETE",
       });
       Swal.fire("Deleted!", "Your product has been deleted.", "success");
@@ -67,7 +67,7 @@ const Editor = () => {
         await response.json();
         Swal.fire("Updated!", "Your product has been updated.", "success");
       } else {
-        //const response = await fetch("http://localhost:4000/task", { //local 
+       // const response = await fetch("http://localhost:4000/task", { //local 
          const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
           method: "POST",
           headers: { "Content-Type": "application/json" },

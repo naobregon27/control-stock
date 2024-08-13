@@ -60,7 +60,7 @@ const updateProducto = async (id, nProducto, urlImagenProducto) => {
         precio: nProducto.precio,
         cantidad: nProducto.cantidad,
         categoria: nProducto.categoria,
-        fechaIngreso: producto.fechaIngreso
+        // fechaIngreso: producto.fechaIngreso
         // subcategoria: producto.subcategoria,
         // imagen: urlImagenProducto || null 
       },
