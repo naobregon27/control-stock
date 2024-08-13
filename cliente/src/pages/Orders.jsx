@@ -17,7 +17,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        // const response = await fetch('http://localhost:4000/task');
+        //const response = await fetch('http://localhost:4000/task');
         const response = await fetch("https://control-stock-06su.onrender.com/task");
         const data = await response.json();
         setProductos(data);
@@ -28,7 +28,7 @@ const Orders = () => {
 
     const fetchVentas = async () => {
       try {
-        // const response = await fetch('http://localhost:4000/ventas');
+        //const response = await fetch('http://localhost:4000/ventas');
         const response = await fetch("https://control-stock-06su.onrender.com/ventas")
         const data = await response.json();
         setVentas(data);

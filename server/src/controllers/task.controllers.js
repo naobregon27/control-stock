@@ -11,7 +11,7 @@ const postProducto = async (producto, urlImagenProducto) => {
         precio: producto.precio,
         cantidad: producto.cantidad,
         categoria: producto.categoria,
-        fechaIngreso: producto.fechaIngreso
+        // fechaIngreso: producto.fechaIngreso
         // subcategoria: producto.subcategoria,
         // imagen: urlImagenProducto || null 
       },

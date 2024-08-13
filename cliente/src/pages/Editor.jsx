@@ -12,7 +12,7 @@ const Editor = () => {
     precio: "",
     cantidad: "",
     categoria: "",
-    fechaIngreso: ""
+    // fechaIngreso: ""
     //  imagen: "",
 
   });
@@ -57,7 +57,7 @@ const Editor = () => {
       if (params.id) {
         const response = await fetch(
          //"http://localhost:4000/task/" + params.id, //local
-          "https://control-stock-06su.onrender.com/task/" + params.id, //deployado
+         "https://control-stock-06su.onrender.com/task/" + params.id, //deployado
           {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
@@ -68,7 +68,7 @@ const Editor = () => {
         Swal.fire("Updated!", "Your product has been updated.", "success");
       } else {
         //const response = await fetch("http://localhost:4000/task", { //local 
-          const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
+         const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(produc),
@@ -156,14 +156,14 @@ const Editor = () => {
               value={produc.categoria}
               autoFocus />
 
-            <input
+            {/* <input
               type="text"
               name="fechaIngreso"
               placeholder="Ingrese fecha de Ingreso"
               className="border border-gray-400 p-2 rounded-md block my-2 w-full text-black"
               onChange={handleChange}
               value={produc.fechaIngreso}
-              autoFocus />
+              autoFocus /> */}
 
             {/* <input
               type="file"
@@ -177,7 +177,7 @@ const Editor = () => {
             <div className="flex justify-between">
               <button
                 type="submit"
-                disabled={!produc.nombreProducto || !produc.marca || !produc.precio || !produc.cantidad || !produc.categoria || !produc.fechaIngreso/* || !produc.imagen*/}
+                disabled={!produc.nombreProducto || !produc.marca || !produc.precio || !produc.cantidad || !produc.categoria /*|| !produc.fechaIngreso || !produc.imagen*/}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 {loading ? "Cargando..." : "Guardar"}

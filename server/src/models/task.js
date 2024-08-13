@@ -32,6 +32,7 @@ module.exports = (sequelize) => {
       fechaIngreso: {
         type: DataTypes.DATE,
         allowNull: false,
+        defaultValue: DataTypes.NOW,    
       },
     },
     {
