@@ -1,7 +1,7 @@
 const { DataTypes, UUIDV4 } = require("sequelize");
 
 module.exports = (sequelize) => {
-  sequelize.define(
+  const Producto = sequelize.define(
     "Producto",
     {
       id: {
@@ -29,11 +29,23 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-     
+      fechaIngreso: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
     },
     {
       paranoid: true,
       timestamps: true,
     }
   );
+
+  Producto.associate = (models) => {
+    Producto.hasMany(models.Ventas, {
+      foreignKey: 'productoId',
+      as: 'ventas'
+    });
+  };
+
+  return Producto;
 };

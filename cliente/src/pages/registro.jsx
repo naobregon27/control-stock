@@ -83,6 +83,7 @@ const Registro = () => {
                     <th className="py-2 px-4 border-b">Cantidad</th>
                     <th className="py-2 px-4 border-b">Cliente</th>
                     <th className="py-2 px-4 border-b">Documento del Cliente</th>
+                    <th className="py-2 px-4 border-b">Medio de Pago</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -94,6 +95,7 @@ const Registro = () => {
                       <td className="py-2 px-4 border-b text-black">{venta.cantidad}</td>
                       <td className="py-2 px-4 border-b text-black">{venta.nombreCliente}</td>
                       <td className="py-2 px-4 border-b text-black">{venta.documentoCliente}</td>
+                      <td className="py-2 px-4 border-b text-black">{venta.medioPago}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -119,3 +121,9 @@ const Registro = () => {
 };
 
 export default Registro;
+
+
+
+
+
+                 

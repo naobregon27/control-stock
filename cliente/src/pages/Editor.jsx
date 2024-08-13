@@ -12,7 +12,8 @@ const Editor = () => {
     precio: "",
     cantidad: "",
     categoria: "",
-  //  imagen: "",
+    fechaIngreso: ""
+    //  imagen: "",
 
   });
 
@@ -27,18 +28,18 @@ const Editor = () => {
   }, [params.id]);
 
   const loadTask = async (id) => {
-   // const res = await fetch("http://localhost:3001/task/" + id); //local
-   const res = await fetch("https://control-stock-06su.onrender.com/task/" + id); //deployado
+    //const res = await fetch("http://localhost:3001/task/" + id); //local
+    const res = await fetch("https://control-stock-06su.onrender.com/task/" + id); //deployado
     const data = await res.json();
     setProduc({
-      nombreProducto: data.nombreProducto, marca: data.marca, precio: data.precio, cantidad: data.cantidad, categoria: data.categoria
+      nombreProducto: data.nombreProducto, marca: data.marca, precio: data.precio, cantidad: data.cantidad, categoria: data.categoria, fechaIngreso: data.fechaIngreso
     });
   };
 
   const handleDelete = async (id) => {
     try {
-     //await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
-      await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
+      //await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
+        await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
         method: "DELETE",
       });
       Swal.fire("Deleted!", "Your product has been deleted.", "success");
@@ -55,7 +56,7 @@ const Editor = () => {
     try {
       if (params.id) {
         const response = await fetch(
-          //"http://localhost:4000/task/" + params.id, //local
+         //"http://localhost:4000/task/" + params.id, //local
           "https://control-stock-06su.onrender.com/task/" + params.id, //deployado
           {
             method: "PUT",
@@ -66,8 +67,8 @@ const Editor = () => {
         await response.json();
         Swal.fire("Updated!", "Your product has been updated.", "success");
       } else {
-       //const response = await fetch("http://localhost:4000/task", { //local 
-       const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
+        //const response = await fetch("http://localhost:4000/task", { //local 
+          const response = await fetch("https://control-stock-06su.onrender.com/task", { //deployado
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(produc),
@@ -155,6 +156,15 @@ const Editor = () => {
               value={produc.categoria}
               autoFocus />
 
+            <input
+              type="text"
+              name="fechaIngreso"
+              placeholder="Ingrese fecha de Ingreso"
+              className="border border-gray-400 p-2 rounded-md block my-2 w-full text-black"
+              onChange={handleChange}
+              value={produc.fechaIngreso}
+              autoFocus />
+
             {/* <input
               type="file"
               name="imagen"
@@ -167,7 +177,7 @@ const Editor = () => {
             <div className="flex justify-between">
               <button
                 type="submit"
-                disabled={!produc.nombreProducto || !produc.marca || !produc.precio || !produc.cantidad || !produc.categoria /* || !produc.imagen*/}
+                disabled={!produc.nombreProducto || !produc.marca || !produc.precio || !produc.cantidad || !produc.categoria || !produc.fechaIngreso/* || !produc.imagen*/}
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
               >
                 {loading ? "Cargando..." : "Guardar"}
@@ -207,19 +217,3 @@ export default Editor;
 
 
 
-// import React from 'react';
-// import { HtmlEditor, Image, Inject, Link, QuickToolbar, RichTextEditorComponent, Toolbar } from '@syncfusion/ej2-react-richtexteditor';
-
-// import { Header } from '../components';
-// import { EditorData } from '../data/dummy';
-
-// const Editor = () => (
-//   <div className="m-2 md:m-10 mt-24 p-2 md:p-10 bg-white rounded-3xl">
-//     <Header category="App" title="Editor" />
-//     <RichTextEditorComponent>
-//       <EditorData />
-//       <Inject services={[HtmlEditor, Toolbar, Image, Link, QuickToolbar]} />
-//     </RichTextEditorComponent>
-//   </div>
-// );
-// export default Editor;

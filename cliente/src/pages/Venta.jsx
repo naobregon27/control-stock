@@ -20,14 +20,17 @@ const Ventas = () => {
         precio: "",
         nombreCliente: '',
         documentoCliente: '',
-        cantidad: ''
+        medioPago:"",
+        cantidad: '',
+        productoId: '' // Asegúrate de incluir productoId en el estado
     });
 
     useEffect(() => {
         setCliente(prevCliente => ({
             ...prevCliente,
             nombreProducto: productoSeleccionado.nombreProducto,
-            precio: productoSeleccionado.precio
+            precio: productoSeleccionado.precio,
+            productoId: cliente.productoId // Asegúrate de incluir productoId en la solicitud
         }));
     }, [productoSeleccionado]);
 
@@ -68,6 +71,10 @@ const Ventas = () => {
     const seleccionarProducto = (producto) => {
         setProductoSeleccionado(producto);
         setValue(producto.nombreProducto);
+        setCliente(prevCliente => ({
+            ...prevCliente,
+            productoId: producto.id // Asegúrate de actualizar productoId aquí también
+        }));
     };
 
     const onChange = (e, { newValue }) => {
@@ -99,7 +106,9 @@ const Ventas = () => {
             ...productoSeleccionado,
             nombreCliente: cliente.nombreCliente,
             documentoCliente: cliente.documentoCliente,
-            cantidad: cliente.cantidad
+            medioPago: cliente.medioPago,
+            cantidad: cliente.cantidad,
+            productoId: cliente.productoId // Asegúrate de incluir productoId en la solicitud
         };
        //axios.post("http://localhost:4000/ventas", venta)//local
        axios.post("https://control-stock-06su.onrender.com/ventas", venta)//render
@@ -167,6 +176,11 @@ const Ventas = () => {
                     <label>Documento del Cliente</label>
                     <input type="text" className="border border-gray-400 p-2 rounded-md block my-2 w-full text-black" name="documentoCliente" value={cliente.documentoCliente} onChange={handleClienteChange} />
                 </div>
+                <div className="form-group">
+                    <label>Forma de Pago</label>
+                    <input type="text" className="border border-gray-400 p-2 rounded-md block my-2 w-full text-black" name="medioPago" value={cliente.medioPago} onChange={handleClienteChange} />
+                </div>
+                <input type="hidden" name="idProducto" value={cliente.productoId} />
 
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Guardar Venta</button>
             </form>
