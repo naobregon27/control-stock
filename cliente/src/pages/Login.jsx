@@ -1,19 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsAuthenticated }) => {
+const Login = ({ setIsAuthenticated, onLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = () => {
+    let userRole = null;
+
     if (username === 'administrador' && password === 'Luciana234') {
+      userRole = 'admin';
+    } else if (username === 'usuario' && password === 'Compu123') {
+      userRole = 'user';
+    }
+
+    if (userRole) {
       localStorage.setItem('auth', 'true');
+      localStorage.setItem('role', userRole);
       setIsAuthenticated(true);
+      onLogin({ username, role: userRole });
       alert('Has iniciado sesión exitosamente');
       navigate('/ecommerce');
     } else {
-      alert('Usuario o contraseña incorrectos');
+      setError('Usuario o contraseña incorrectos');
     }
   };
 
@@ -21,6 +32,7 @@ const Login = ({ setIsAuthenticated }) => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="bg-white p-8 rounded shadow-md w-full max-w-sm">
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
+        {error && <p className="text-red-500 mb-4">{error}</p>}
         <input
           type="text"
           placeholder="Usuario"

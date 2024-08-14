@@ -60,11 +60,11 @@ const Ventas = () => {
         setProductos([]);
     };
 
-    const getSuggestionValue = (suggestion) => suggestion.nombreProducto;
+    const getSuggestionValue = (suggestion) => `${suggestion.nombreProducto} - ${suggestion.marca}`;
 
     const renderSuggestion = (suggestion) => (
         <div className='sugerencia' onClick={() => seleccionarProducto(suggestion)}>
-            {suggestion.nombreProducto}
+            {suggestion.nombreProducto} - {suggestion.marca}
         </div>
     );
 

@@ -38,15 +38,11 @@ const Editor = () => {
 
   const handleDelete = async (id) => {
     try {
-      //await fetch(`http://localhost:4000/task/delete/${id}`, {//Local
-      await fetch(`https://control-stock-06su.onrender.com/task/${id}`, {//deployado
-        method: "DELETE",
-      });
-      Swal.fire("Deleted!", "Your product has been deleted.", "success");
-      navigate("/");
+      // await axios.delete(`http://localhost:4000/task/delete/${id}`);
+      await axios.delete(`https://control-stock-06su.onrender.com/task/delete/${id}`)
+      setProductos(productos.filter(producto => producto.id !== id));
     } catch (error) {
-      console.error(error);
-      Swal.fire("Error!", "There was an error deleting the product.", "error");
+      console.error('Error deleting producto:', error);
     }
   };
 
@@ -183,14 +179,14 @@ const Editor = () => {
                 {loading ? "Cargando..." : "Guardar"}
               </button>
 
-              {params.id && (
+              {/* {params.id && (
                 <button
                   className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   onClick={() => handleDelete(params.id)}
                 >
                   Delete
                 </button>
-              )}
+              )} */}
             </div>
           </form>
         </div>

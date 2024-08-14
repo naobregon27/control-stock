@@ -1,47 +1,49 @@
-const { Usuario } = require("../db.js");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const config = require("../config.js")
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const { User, Role } = require('../models/users');
 
-
-const postUsuario = async (usuario, urlImagenProducto) => {
+exports.signup = async (req, res) => {
+  const { username, email, password, roles } = req.body;
   try {
-    const saltRounds = 10; // Número de rondas de sal (ajusta según tus necesidades)
-    const hashedPassword = await bcrypt.hash(usuario.password, saltRounds);
+    const user = await User.create({ username, email, password });
 
-    console.log("URL de la imagen:", urlImagenProducto); // Verifica el valor de urlImagenProducto
-    const [newUsuario, created] = await Usuario.findOrCreate({
-      where: { nombre: usuario.nombre },
-      defaults: {
-        apellido: usuario.apellido,
-        email: usuario.email,
-        password: usuario.password,
-        passwordHash: hashedPassword,
-         // Asigna el hash de la contraseña al campo passwordHash
-        // imagen: urlImagenProducto || null
-      },
-    });
-
-    if (!created) {
-      throw new Error('El usuario ya existe.');
+    if (roles) {
+      const rolesFound = await Role.findAll({
+        where: {
+          name: roles
+        }
+      });
+      await user.setRoles(rolesFound);
+    } else {
+      const role = await Role.findOne({ where: { name: 'employee' } });
+      await user.setRoles([role]);
     }
 
-    const token = jwt.sign({id: newUsuario._id}, "products-api" ,{
-      expiresIn: 60 * 60 * 24 // 1 día
-    }
-    )
-
-
-
-    return token;
+    res.status(201).send({ message: "Usuario registrado exitosamente!" });
   } catch (error) {
-    console.error("Error al crear el usuario:", error);
-    throw new Error('No fue posible crear el usuario: ' + error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
+exports.login = async (req, res) => {
+  const { username, password } = req.body;
+  try {
+    const user = await User.findOne({ where: { username } });
+    if (!user) {
+      return res.status(404).send({ message: "Usuario no encontrado." });
+    }
 
+    const passwordIsValid = await bcrypt.compare(password, user.passwordHash);
+    if (!passwordIsValid) {
+      return res.status(401).send({ accessToken: null, message: "Contraseña incorrecta." });
+    }
 
-module.exports = {
-  postUsuario,
+    const roles = await user.getRoles();
+    const authorities = roles.map(role => "ROLE_" + role.name.toUpperCase());
+
+    const token = jwt.sign({ id: user.id, roles: authorities }, "secret-key", { expiresIn: 86400 });
+    res.status(200).send({ id: user.id, username: user.username, email: user.email, roles: authorities, accessToken: token });
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
 };

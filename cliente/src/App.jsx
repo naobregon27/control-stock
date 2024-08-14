@@ -9,6 +9,7 @@ import Venta from "./pages/Venta";
 import Registro from './pages/registro';
 import Login from './pages/Login';
 import ProtectedRoute from './components/ProtectedRoute';
+import PasswordProtected from "./components/PasswordProtected"
 
 import './App.css';
 
@@ -17,6 +18,7 @@ import { useStateContext } from './contexts/ContextProvider';
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState('admin'); // Añade el estado para el rol del usuario
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
@@ -26,6 +28,19 @@ const App = () => {
       setCurrentMode(currentThemeMode);
     }
   }, []);
+
+  const checkEditPermissions = (user) => {
+    // Solo permitir acceso a los administradores
+    return user.role === 'admin';
+  };
+  
+  // Ejemplo de uso
+  const user = { role: 'admin' }; // Cambia esto según el rol del usuario actual
+  if (checkEditPermissions(user)) {
+    console.log('Acceso permitido');
+  } else {
+    console.log('Acceso denegado');
+  }
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -73,14 +88,23 @@ const App = () => {
               {themeSettings && (<ThemeSettings />)}
 
               <Routes>
-                <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
-                <Route path="/" element={isAuthenticated ? <ProtectedRoute><Ecommerce /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/ecommerce" element={isAuthenticated ? <ProtectedRoute><Ecommerce /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/Inventory" element={isAuthenticated ? <ProtectedRoute><Orders /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/Add" element={isAuthenticated ? <ProtectedRoute><Editor /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/Add/:id/edit" element={isAuthenticated ? <ProtectedRoute><Editor /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/Ventas" element={isAuthenticated ? <ProtectedRoute><Venta /></ProtectedRoute> : <Navigate to="/login" />} />
-                <Route path="/Registro" element={isAuthenticated ? <ProtectedRoute><Registro /></ProtectedRoute> : <Navigate to="/login" />} />
+                <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUserRole={setUserRole} />} />
+                <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Ecommerce /></ProtectedRoute>} />
+
+                <Route path="/ecommerce" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Ecommerce /></ProtectedRoute>} />
+
+                <Route path="/Inventory" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Orders /></ProtectedRoute>} />
+
+                <Route path="/Add" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Editor /></ProtectedRoute>} />
+
+                <Route path="/Add/:id/edit" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']} > 
+                <PasswordProtected correctPassword="Respuesto234"><Editor /> 
+                </PasswordProtected>
+                </ProtectedRoute>}/>
+
+                <Route path="/Ventas" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Venta /></ProtectedRoute>} />
+
+                <Route path="/Registro" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Registro /></ProtectedRoute>} />
               </Routes>
             </div>
             {isAuthenticated && <Footer />}
