@@ -96,6 +96,8 @@ const Orders = () => {
 
   return (
     <div className="container mx-auto p-3">
+      <br/>
+      <br/>
       <div className="flex justify-center">
         <div className="w-full max-w-md">
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -148,7 +150,7 @@ const Orders = () => {
                       <tr key={index} className="hover:bg-gray-100">
                         <td className="py-2 px-4 border-b text-black">{producto.nombreProducto}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.marca}</td>
-                        <td className="py-2 px-4 border-b text-black">{producto.precio}</td>
+                        <td className="py-2 px-4 border-b text-black">${producto.precio}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.fechaIngreso}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.cantidad}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.categoria}</td>
