@@ -140,6 +140,9 @@ const Ventas = () => {
 
     return (
         <div className="App">
+           <br />
+           <br />
+        
             <div className="autosuggest-container">
                 <label htmlFor="product-input" className="autosuggest-label">Seleccione el producto</label>
                 <Autosuggest

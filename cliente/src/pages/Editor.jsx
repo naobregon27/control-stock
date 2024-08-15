@@ -99,6 +99,9 @@ const Editor = () => {
 
   return (
     <div className="container mx-auto p-3">
+      <br />
+      <br />
+      <br />
       <div className="flex justify-center">
         <div className="w-full max-w-md">
           <form onSubmit={handleSubmit} className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
