@@ -98,7 +98,7 @@ const App = () => {
                 <Route path="/Add" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Editor /></ProtectedRoute>} />
 
                 <Route path="/Add/:id/edit" element={<ProtectedRoute isAuthenticated={isAuthenticated}> 
-                <PasswordProtected correctPassword="Respuesto234"><Editor /> 
+                <PasswordProtected correctPassword="Repuestos234"><Editor /> 
                 </PasswordProtected>
                 </ProtectedRoute>}/>
 
