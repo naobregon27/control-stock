@@ -1,30 +1,19 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ setIsAuthenticated, onLogin }) => {
+const Login = ({ setIsAuthenticated }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    let userRole = null;
-
+    // Verifica las credenciales
     if (username === 'administrador' && password === 'Luciana234') {
-      userRole = 'admin';
-    } else if (username === 'usuario' && password === 'Compu123') {
-      userRole = 'user';
-    }
-
-    if (userRole) {
-      localStorage.setItem('auth', 'true');
-      localStorage.setItem('role', userRole);
       setIsAuthenticated(true);
-      onLogin({ username, role: userRole });
-      alert('Has iniciado sesión exitosamente');
-      navigate('/ecommerce');
+      navigate('/');
     } else {
-      setError('Usuario o contraseña incorrectos');
+      setError('Credenciales incorrectas');
     }
   };
 
@@ -35,14 +24,14 @@ const Login = ({ setIsAuthenticated, onLogin }) => {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <input
           type="text"
-          placeholder="Usuario"
+          placeholder="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           className="w-full p-2 mb-4 border border-gray-300 rounded"
         />
         <input
           type="password"
-          placeholder="Contraseña"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 mb-4 border border-gray-300 rounded"

@@ -97,7 +97,7 @@ const Registro = () => {
                         <td className="py-2 px-4 border-b text-black">{venta.nombreProducto}</td>
                         <td className="py-2 px-4 border-b text-black">${venta.precio}</td>
                         <td className="py-2 px-4 border-b text-black">{venta.cantidad}</td>
-                        <td className="py-2 px-4 border-b text-black">{venta.cliente}</td>
+                        <td className="py-2 px-4 border-b text-black">{venta.nombreCliente}</td>
                         <td className="py-2 px-4 border-b text-black">{venta.documentoCliente}</td>
                         <td className="py-2 px-4 border-b text-black">{venta.medioPago}</td>
                       </tr>

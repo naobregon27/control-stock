@@ -18,7 +18,7 @@ import { useStateContext } from './contexts/ContextProvider';
 const App = () => {
   const { setCurrentColor, setCurrentMode, currentMode, activeMenu, currentColor, themeSettings, setThemeSettings } = useStateContext();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState('admin'); // Añade el estado para el rol del usuario
+  // const [userRole, setUserRole] = useState('admin'); // Añade el estado para el rol del usuario
 
   useEffect(() => {
     const currentThemeColor = localStorage.getItem('colorMode');
@@ -34,13 +34,13 @@ const App = () => {
     return user.role === 'admin';
   };
   
-  // Ejemplo de uso
-  const user = { role: 'admin' }; // Cambia esto según el rol del usuario actual
-  if (checkEditPermissions(user)) {
-    console.log('Acceso permitido');
-  } else {
-    console.log('Acceso denegado');
-  }
+  // // Ejemplo de uso
+  // const user = { role: 'admin' }; // Cambia esto según el rol del usuario actual
+  // if (checkEditPermissions(user)) {
+  //   console.log('Acceso permitido');
+  // } else {
+  //   console.log('Acceso denegado');
+  // }
 
   return (
     <div className={currentMode === 'Dark' ? 'dark' : ''}>
@@ -88,23 +88,23 @@ const App = () => {
               {themeSettings && (<ThemeSettings />)}
 
               <Routes>
-                <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} setUserRole={setUserRole} />} />
-                <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Ecommerce /></ProtectedRoute>} />
+              <Route path="/login" element={<Login setIsAuthenticated={setIsAuthenticated} />} />
+                <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Ecommerce /></ProtectedRoute>} />
 
-                <Route path="/ecommerce" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Ecommerce /></ProtectedRoute>} />
+                <Route path="/ecommerce" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><Ecommerce /></ProtectedRoute>} />
 
-                <Route path="/Inventory" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Orders /></ProtectedRoute>} />
+                <Route path="/Inventory" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Orders /></ProtectedRoute>} />
 
-                <Route path="/Add" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Editor /></ProtectedRoute>} />
+                <Route path="/Add" element={<ProtectedRoute isAuthenticated={isAuthenticated}><Editor /></ProtectedRoute>} />
 
-                <Route path="/Add/:id/edit" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']} > 
+                <Route path="/Add/:id/edit" element={<ProtectedRoute isAuthenticated={isAuthenticated}> 
                 <PasswordProtected correctPassword="Respuesto234"><Editor /> 
                 </PasswordProtected>
                 </ProtectedRoute>}/>
 
-                <Route path="/Ventas" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['user', 'admin']}><Venta /></ProtectedRoute>} />
+                <Route path="/Ventas" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><Venta /></ProtectedRoute>} />
 
-                <Route path="/Registro" element={<ProtectedRoute isAuthenticated={isAuthenticated} userRole={userRole} allowedRoles={['admin']}><Registro /></ProtectedRoute>} />
+                <Route path="/Registro" element={<ProtectedRoute isAuthenticated={isAuthenticated} ><Registro /></ProtectedRoute>} />
               </Routes>
             </div>
             {isAuthenticated && <Footer />}
@@ -116,3 +116,5 @@ const App = () => {
 };
 
 export default App;
+
+
