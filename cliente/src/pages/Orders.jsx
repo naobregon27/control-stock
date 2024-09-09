@@ -9,11 +9,11 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [nombreProducto, setNombreProducto] = useState('');
 
+  const [paginaActual, setPaginaActual] = useState(0);
+  const productosPorPagina = 15;
+  const maxNumerosPorPagina = 5;
+
   const navigate = useNavigate();
-
-
-
-
   useEffect(() => {
     const fetchProductos = async () => {
       try {
@@ -43,7 +43,7 @@ const Orders = () => {
   useEffect(() => {
     const productosBajoStock = productos.filter(producto => {
       const cantidadSalida = getCantidadSalida(producto.nombreProducto) || 0;
-      const existencia = producto.cantidad - cantidadSalida ;
+      const existencia = producto.cantidad - cantidadSalida;
       return existencia <= 5;
     });
 
@@ -94,10 +94,33 @@ const Orders = () => {
     return <div>Cargando datos...</div>;
   }
 
+  const productosOrdenados = productos.sort((a, b) => new Date(b.fechaIngreso) - new Date(a.fechaIngreso));
+  const totalPaginas = Math.ceil(productosOrdenados.length / productosPorPagina);
+
+  const handlePaginaAnterior = () => {
+    setPaginaActual((prev) => Math.max(prev - 1, 0));
+  };
+
+  const handlePaginaSiguiente = () => {
+    setPaginaActual((prev) => Math.min(prev + 1, totalPaginas - 1));
+  };
+
+  const handlePaginaClick = (numeroPagina) => {
+    setPaginaActual(numeroPagina);
+  };
+  const productosPaginados = productosOrdenados.slice(
+    paginaActual * productosPorPagina,
+    (paginaActual + 1) * productosPorPagina
+  );
+
+  const inicio = Math.floor(paginaActual / maxNumerosPorPagina) * maxNumerosPorPagina;
+  const fin = Math.min(inicio + maxNumerosPorPagina, totalPaginas);
+
+
   return (
     <div className="container mx-auto p-3">
-      <br/>
-      <br/>
+      <br />
+      <br />
       <div className="flex justify-center">
         <div className="w-full max-w-md">
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -127,7 +150,7 @@ const Orders = () => {
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h3 className="text-2xl font-bold my-3">Lista de Productos</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-400">
+            <table className="min-w-full bg-white border border-gray-400">
                 <thead>
                   <tr className="bg-teal-500 text-white">
                     <th className="py-2 px-4 border-b">Nombre del Producto</th>
@@ -139,12 +162,11 @@ const Orders = () => {
                     <th className="py-2 px-4 border-b">Cantidad Salida</th>
                     <th className="py-2 px-4 border-b">Existencia</th>
                     <th className="py-2 px-4 border-b">Acciones</th>
-
                   </tr>
                 </thead>
                 <tbody>
-                  {productos.map((producto, index) => {
-                    const cantidadSalida = getCantidadSalida(producto.nombreProducto)|| 0;
+                  {productosPaginados.map((producto, index) => {
+                    const cantidadSalida = getCantidadSalida(producto.nombreProducto) || 0;
                     const existencia = producto.cantidad - cantidadSalida;
                     return (
                       <tr key={index} className="hover:bg-gray-100">
@@ -157,7 +179,6 @@ const Orders = () => {
                         <td className="py-2 px-4 border-b text-black">{cantidadSalida}</td>
                         <td className="py-2 px-4 border-b text-black" style={getEstiloExistencia(existencia)}>{existencia}</td>
                         <td className="py-2 px-4 border-b">
-
                           <button
                             onClick={() => handleEdit(producto.id)}
                             className="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded mr-2"
@@ -168,15 +189,42 @@ const Orders = () => {
                             onClick={() => handleDelete(producto.id)}
                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
                           >
-                            Borrar
+                            Eliminar
                           </button>
                         </td>
                       </tr>
-
                     );
                   })}
                 </tbody>
               </table>
+              <div className="flex justify-between mt-4">
+              <button
+                  onClick={handlePaginaAnterior}
+                  disabled={paginaActual === 0}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Anterior
+                </button>
+                <div className="flex space-x-2">
+                {Array.from({ length: fin - inicio }, (_, i) => inicio + i).map((numeroPagina) => (
+                  <button
+                    key={numeroPagina}
+                    onClick={() => handlePaginaClick(numeroPagina)}
+                    className={`${
+                      paginaActual === numeroPagina ? 'bg-blue-700' : 'bg-blue-500'
+                    } hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                  >
+                    {numeroPagina + 1}
+                  </button>
+                ))}
+                </div>
+                <button
+                onClick={handlePaginaSiguiente}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              >
+                Siguiente
+              </button>
+              </div>
             </div>
           </div>
         </div>
