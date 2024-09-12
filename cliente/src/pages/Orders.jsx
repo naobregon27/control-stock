@@ -173,7 +173,7 @@ const Orders = () => {
                         <td className="py-2 px-4 border-b text-black">{producto.nombreProducto}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.marca}</td>
                         <td className="py-2 px-4 border-b text-black">${producto.precio}</td>
-                        <td className="py-2 px-4 border-b text-black">{producto.fechaIngreso}</td>
+                        <td className="py-2 px-4 border-b text-black">{new Date(producto.fechaIngreso).toLocaleString()}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.cantidad}</td>
                         <td className="py-2 px-4 border-b text-black">{producto.categoria}</td>
                         <td className="py-2 px-4 border-b text-black">{cantidadSalida}</td>
