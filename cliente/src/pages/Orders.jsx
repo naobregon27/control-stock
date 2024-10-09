@@ -6,11 +6,12 @@ import { saveAs } from 'file-saver';
 
 
 const Orders = () => {
+  
   const [productos, setProductos] = useState([]);
   const [ventas, setVentas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [nombreProducto, setNombreProducto] = useState('');
-  const [nombreMarca, setNombreMarca] = useState('');
+  const [nombreCategoria, setNombreCategoria] = useState('');
 
 
   const [paginaActual, setPaginaActual] = useState(0);
@@ -74,7 +75,7 @@ const Orders = () => {
   const handleFilter = () => {
     const filteredProductos = productos.filter(producto =>
       producto.nombreProducto.toLowerCase().includes(nombreProducto.toLowerCase()) &&
-      producto.marca.toLowerCase().includes(nombreMarca.toLowerCase())
+      producto.categoria.toLowerCase().includes(nombreCategoria.toLowerCase())
     );
     setProductos(filteredProductos);
   };
@@ -157,12 +158,12 @@ const Orders = () => {
                 />
               </label>
               <label className="block text-sm font-bold mb-2">
-                Marca del Producto:
+                Categoria del Producto:
                 <input
                   type="text"
                   className="border border-gray-400 p-2 rounded w-full text-black"
-                  value={nombreMarca}
-                  onChange={e => setNombreMarca(e.target.value)}
+                  value={nombreCategoria}
+                  onChange={e => setNombreCategoria(e.target.value)}
                 />
               </label>
               <button
