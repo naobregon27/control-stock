@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 
 const Orders = () => {
@@ -8,10 +10,19 @@ const Orders = () => {
   const [ventas, setVentas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [nombreProducto, setNombreProducto] = useState('');
+  const [nombreMarca, setNombreMarca] = useState('');
+
 
   const [paginaActual, setPaginaActual] = useState(0);
   const productosPorPagina = 15;
   const maxNumerosPorPagina = 5;
+
+  const tableRef = useRef(null);
+  // const { onDownload } = useDownloadExcel({
+  //   currentTableRef: tableRef.current,
+  //   filename: 'tabla_Inventario',
+  //   sheet: 'Stock'
+  // });
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -62,7 +73,8 @@ const Orders = () => {
 
   const handleFilter = () => {
     const filteredProductos = productos.filter(producto =>
-      producto.nombreProducto.toLowerCase().includes(nombreProducto.toLowerCase())
+      producto.nombreProducto.toLowerCase().includes(nombreProducto.toLowerCase()) &&
+      producto.marca.toLowerCase().includes(nombreMarca.toLowerCase())
     );
     setProductos(filteredProductos);
   };
@@ -88,6 +100,15 @@ const Orders = () => {
     } else {
       console.error('No se encontró el campo id');
     }
+  };
+
+  const exportToExcel = () => {
+    const ws = XLSX.utils.table_to_sheet(tableRef.current);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Stock');
+    const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
+    saveAs(data, 'tabla_Inventario.xlsx');
   };
 
   if (loading) {
@@ -124,7 +145,7 @@ const Orders = () => {
       <div className="flex justify-center">
         <div className="w-full max-w-md">
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <h3 className="text-2xl font-bold my-3">Filtrar por Nombre del Producto</h3>
+            <h3 className="text-2xl font-bold my-3">Bucador del producto</h3>
             <div className="mb-4">
               <label className="block text-sm font-bold mb-2">
                 Nombre del Producto:
@@ -133,6 +154,15 @@ const Orders = () => {
                   className="border border-gray-400 p-2 rounded w-full text-black"
                   value={nombreProducto}
                   onChange={e => setNombreProducto(e.target.value)}
+                />
+              </label>
+              <label className="block text-sm font-bold mb-2">
+                Marca del Producto:
+                <input
+                  type="text"
+                  className="border border-gray-400 p-2 rounded w-full text-black"
+                  value={nombreMarca}
+                  onChange={e => setNombreMarca(e.target.value)}
                 />
               </label>
               <button
@@ -147,10 +177,19 @@ const Orders = () => {
       </div>
       <div className="flex justify-center">
         <div className="w-full max-w-4xl">
+          <br />
+          <button
+            onClick={exportToExcel}
+            className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded"
+          >
+            Exportar a Excel
+          </button>
+          <br />
+          <br />
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h3 className="text-2xl font-bold my-3">Lista de Productos</h3>
             <div className="overflow-x-auto">
-            <table className="min-w-full bg-white border border-gray-400">
+              <table className="min-w-full bg-white border border-gray-400" ref={tableRef} >
                 <thead>
                   <tr className="bg-teal-500 text-white">
                     <th className="py-2 px-4 border-b">Nombre del Producto</th>
@@ -198,7 +237,7 @@ const Orders = () => {
                 </tbody>
               </table>
               <div className="flex justify-between mt-4">
-              <button
+                <button
                   onClick={handlePaginaAnterior}
                   disabled={paginaActual === 0}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -206,24 +245,23 @@ const Orders = () => {
                   Anterior
                 </button>
                 <div className="flex space-x-2">
-                {Array.from({ length: fin - inicio }, (_, i) => inicio + i).map((numeroPagina) => (
-                  <button
-                    key={numeroPagina}
-                    onClick={() => handlePaginaClick(numeroPagina)}
-                    className={`${
-                      paginaActual === numeroPagina ? 'bg-blue-700' : 'bg-blue-500'
-                    } hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-                  >
-                    {numeroPagina + 1}
-                  </button>
-                ))}
+                  {Array.from({ length: fin - inicio }, (_, i) => inicio + i).map((numeroPagina) => (
+                    <button
+                      key={numeroPagina}
+                      onClick={() => handlePaginaClick(numeroPagina)}
+                      className={`${paginaActual === numeroPagina ? 'bg-blue-700' : 'bg-blue-500'
+                        } hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                    >
+                      {numeroPagina + 1}
+                    </button>
+                  ))}
                 </div>
                 <button
-                onClick={handlePaginaSiguiente}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              >
-                Siguiente
-              </button>
+                  onClick={handlePaginaSiguiente}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Siguiente
+                </button>
               </div>
             </div>
           </div>

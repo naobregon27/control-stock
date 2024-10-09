@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useDownloadExcel } from 'react-export-table-to-excel';
 
 const Registro = () => {
   const [ventas, setVentas] = useState([]);
@@ -11,7 +12,12 @@ const Registro = () => {
   const ventasPorPagina = 15;
   const maxNumerosPorPagina = 5;
 
-
+  const tableRef = useRef(null);
+  const { onDownload } = useDownloadExcel({
+    currentTableRef: tableRef.current,
+    filename: 'tabla_RegistroVentas',
+    sheet: 'Ventas'
+  });
 
   useEffect(() => {
     fetch("https://control-stock-06su.onrender.com/ventas")
@@ -65,6 +71,7 @@ const Registro = () => {
   const fin = Math.min(inicio + maxNumerosPorPagina, totalPaginas);
 
   return (
+    
     <div className="container mx-auto p-3">
       <br />
       <br />
@@ -103,10 +110,19 @@ const Registro = () => {
       </div>
       <div className="flex justify-center">
         <div className="w-full max-w-4xl">
+          <br />
+          <button
+        onClick={onDownload}
+        className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded"
+      >
+        Exportar a Excel
+      </button>
+          <br />
+          <br />
           <div className="bg-green-500 text-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <h3 className="text-2xl font-bold my-3">Lista de Ventas</h3>
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-400">
+              <table className="min-w-full bg-white border border-gray-400" ref={tableRef}>
                 <thead>
                   <tr className="bg-teal-500 text-white">
                     <th className="py-2 px-4 border-b">Fecha de Registro</th>
